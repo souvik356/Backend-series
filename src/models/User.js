@@ -53,14 +53,14 @@ const userSchema = mongoose.Schema({
         type: [String],
         validate(value){
             if(value.length>10){
-                throw new Error("Skills count must be more than 10")
+                throw new Error("Skills count must not be more than 10")
             }
         }
     },
     about:{
         type: String,
         minLength: 4,
-        maxLength: 50
+        maxLength: 100
     }
 },
 {
