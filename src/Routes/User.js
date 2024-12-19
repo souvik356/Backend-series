@@ -55,7 +55,10 @@ userRouter.get('/user/connections', userAuth, async (req, res) => {
 userRouter.get('/user/feed', userAuth, async (req, res) => {
     try {
         const loggedInUser = req.info
-
+        const page = parseInt(req.query.page) || 1
+        let limit = parseInt(req.query.limit) || 10
+        limit = limit > 50 ? 50 : limit
+        const skip = (page - 1) * limit
         // user should see all cards EXCEPT :-
         // - his own card
         // - his connections
@@ -84,7 +87,7 @@ userRouter.get('/user/feed', userAuth, async (req, res) => {
                 { _id: {$nin: Array.from(hiddenUsersFromFeed)}},
                 { _id: {$ne: loggedInUser._id}}
             ]
-        })
+        }).skip(skip).limit(limit).populate("_id","firstName lastName photoURL about skills")
         res.json({
             message:'All the users are here',
             users
