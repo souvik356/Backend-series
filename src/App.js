@@ -45,7 +45,7 @@ app.use(cookieParser())
 //         const token = jwt.sign({_id:user._id},"Devtinder@123",{ expiresIn: '1d'}) // here in jwt token we can store some data and can store secret key here
 //        // Add  jwt token  in cookie and send the response back to user
 //     //    console.log(token);
-       
+
 //        res.cookie("token",token,{ expires: new Date(Date.now() + 8 *3600000),
 //        })
 //       }
@@ -161,19 +161,23 @@ app.use(cookieParser())
 //     }
 // })
 
-const {authRouter} = require('./Routes/Auth')
-const {profileRouter} = require('./Routes/Profile')
-const {requestRouter} = require('./Routes/Request')
+const { authRouter } = require('./Routes/Auth')
+const { profileRouter } = require('./Routes/Profile')
+const { requestRouter } = require('./Routes/Request')
+const { userRouter} = require('./Routes/User')
 
-app.use('/',authRouter)
-app.use('/',profileRouter)
-app.use('/',requestRouter)
+app.use('/', authRouter)
+app.use('/', profileRouter)
+app.use('/', requestRouter)
+app.use('/', userRouter)
 
-connectDb().then(()=>{
-    console.log("Database conncted succesfully");
-    app.listen(7777,()=>{
-        console.log('server is running on port number 7777');
+connectDb()
+    .then(() => {
+        console.log("Database conncted succesfully");
+        app.listen(3000, () => {
+            console.log('server is running on port number 7777');
+        })
     })
-}).catch((err)=>{
-   console.error(`Database is not connected succesfully ${err}`);
-})
+    .catch((err) => {
+        console.error(`Database is not connected succesfully ${err}`);
+    })
